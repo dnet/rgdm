@@ -37,7 +37,8 @@ KEY=$(git config rgdm.key)
 (
 	echo '<?xml version="1.0" encoding="utf-8"?><fakeroot>'
 	echo "$GL" | egrep -o '#[0-9]+' | sort -u | sed 's/#//' | while read ISSUE; do
-			curl --silent "$BASE/issues/$ISSUE.xml?key=$KEY" | xsltproc "$DIR/notes.xsl" -
+			curl --silent "$BASE/issues/$ISSUE.xml?key=$KEY&include=journals" \
+				| xsltproc "$DIR/notes.xsl" -
 	done
 	echo '</fakeroot>'
 ) | xsltproc "$DIR/sql.xsl" -
